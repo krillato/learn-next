@@ -20,9 +20,9 @@ function actionPost() {
         author: "Tee Time",
         tags: "history",
       };
-      const response = await servicePostHistoryContent(reqObj);
+      await servicePostHistoryContent(reqObj);
       dispatch(loadingPost(loadingPostStatus));
-      console.log("Work:", response);
+      setForm({ name: "" });
     } catch (error) {
       console.error("Error fetching detail:", error);
     }
