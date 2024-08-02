@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import React from 'react'
+import Image from "next/image";
+import React from "react";
 
 function HighlightView() {
   const dataHighLight = [
@@ -70,40 +70,39 @@ function HighlightView() {
       post_url: "https://pantip.com/s/NBe8P",
     },
   ];
-  
+
   return (
     <div className="w-full h-auto flex flex-col mt-10 md:px-10 gap-2">
-    <div className="bg-purple-800 rounded-xl w-auto">
-      <span className="items-start text-left flex justify-start text-white p-1 pl-2 font-bold">
-        Highlight
-      </span>
-    </div>
+      <div className="bg-purple-800 rounded-xl w-auto">
+        <span className="items-start text-left flex justify-start text-white p-1 pl-2 font-bold">
+          Highlight
+        </span>
+      </div>
 
-    <div className="grid grid-cols-3  items-center w-full md:flex flex-row gap-2 md:justify-center  h-auto ">
-      {dataHighLight?.map((item) => {
-        return (
-          <div
-            key={item?.name}
-            className="border bg-purple-700 col-span-1 md:w-[900px]  p-2 text-center items-center flex flex-col gap-1 justify-center rounded-xl cursor-pointer hover:border-b-2 hover:shadow-lg hover:scale-110  transition delay-150 duration-300 ease-in-out"
-          >
-            <Image
-              src={`${item?.image_url[0]}`}
-              alt="Clerk – Authentication & User Management for Next.js"
-              width={500}
-              height={500}
-              className="object-cover md:w-[900px]"
-            />
+      <div className="grid grid-cols-3  items-center w-full md:flex flex-row gap-2 md:justify-center  h-auto ">
+        {dataHighLight?.map((item) => {
+          return (
+            <div
+              key={item?.name}
+              className="border bg-purple-700 col-span-1 md:w-[300px]  p-2 text-center items-center flex flex-col gap-1 justify-center rounded-xl cursor-pointer hover:border-b-2 hover:shadow-lg hover:scale-110  transition delay-150 duration-300 ease-in-out"
+            >
+              <Image
+                src={item?.image_url[0]}
+                alt="Clerk – Authentication & User Management for Next.js"
+                width={300}
+                height={130}
+                className="object-cover md:w-[300px]"
+              />
 
-            <span className="text-white font-normal line-clamp-2 text-[14px] bg-purple-600">
-              {item?.name}
-            </span>
-          </div>
-        );
-      })}
+              <span className="text-white font-normal line-clamp-2 text-[14px] bg-purple-600">
+                {item?.name}
+              </span>
+            </div>
+          );
+        })}
+      </div>
     </div>
-  </div>
-  )
+  );
 }
 
-
-export default HighlightView
+export default HighlightView;
