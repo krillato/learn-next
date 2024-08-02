@@ -19,7 +19,7 @@ function HighlightView() {
       message: "",
       weight: 3,
       image_url: [
-        "https://ptcdn.info/home_highlight/2024-06/66470fa1caac0a97173804f6_mxsex4lszz_200.png",
+        "https://ptcdn.info/home_highlight/2024-07/6682472acaac0a6b8b2ba674_o9ehi1pvjb_200.png",
         "https://ptcdn.info/home_highlight/2024-06/66470fa1caac0a97173804f6_mxsex4lszz_400.png",
         "https://ptcdn.info/home_highlight/2024-06/66470fa1caac0a97173804f6_mxsex4lszz_1000.png",
       ],
@@ -41,7 +41,7 @@ function HighlightView() {
       message: "",
       weight: 5,
       image_url: [
-        "https://ptcdn.info/home_highlight/2024-07/668646c5caac0af78631fad8_1osl902uzv_200.png",
+        "https://ptcdn.info/home_highlight/2024-07/6682472acaac0a6b8b2ba674_o9ehi1pvjb_200.png",
         "https://ptcdn.info/home_highlight/2024-07/668646c5caac0af78631fad8_1osl902uzv_400.png",
         "https://ptcdn.info/home_highlight/2024-07/668646c5caac0af78631fad8_1osl902uzv_1000.png",
       ],
@@ -52,7 +52,7 @@ function HighlightView() {
       message: "",
       weight: 20,
       image_url: [
-        "https://ptcdn.info/home_highlight/2024-07/668cdc21caac0a34ce1e5286_xfcweutugk_200.jpg",
+        "https://ptcdn.info/home_highlight/2024-07/6682472acaac0a6b8b2ba674_o9ehi1pvjb_200.png",
         "https://ptcdn.info/home_highlight/2024-07/668cdc21caac0a34ce1e5286_xfcweutugk_400.jpg",
         "https://ptcdn.info/home_highlight/2024-07/668cdc21caac0a34ce1e5286_xfcweutugk_1000.jpg",
       ],
