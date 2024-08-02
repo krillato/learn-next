@@ -1,113 +1,163 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
+//mui
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+//components
+import ClassView from "@/components/Home/ClassView";
+import HighlightView from "@/components/Home/HighlightView";
+import PickView from "@/components/Home/PickView";
+import TagView from "@/components/Home/TagView";
+import Footer from "@/components/Home/Footer";
 
+import axios from "axios";
+import Link from "next/link";
+import Post from "@/components/Post/Post";
+import { useFormState } from "react-dom";
+import { actionHomePage } from "./action";
+import { ClipLoader } from "react-spinners";
+async function getBlogs() {
+  const response = await fetch(
+    `https://66938197c6be000fa07bcd99.mockapi.io/content`
+  );
+
+  if (!response.ok) {
+    throw new Error("cannot fetch content");
+  }
+
+  return response.json();
+}
+
+const fetchBlogs = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.STARPI_BASE_URL}/api/blogs`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
 export default function Home() {
+  /*   const content = await getBlogs();
+  const blogs = await fetchBlogs(); */
+  const initState: {
+    created_time: string;
+    title: string;
+    topic_type: string;
+    thumbnail_url: string;
+    views_count: number;
+    comments_count: number;
+    votes_count: number;
+    author: string;
+    tags: string;
+    topic_id: string;
+  } = {
+    created_time: "",
+    title: "",
+    topic_type: "",
+    thumbnail_url: "",
+    views_count: 0,
+    comments_count: 0,
+    votes_count: 0,
+    author: "",
+    tags: "",
+    topic_id: "",
+  };
+  /*  const [state, fromAction] = useFormState(actionHomePage, initState);
+  console.log("state:", state); */
+
+  const {
+    listDataHistory,
+    loading,
+    handleSearch,
+    useSearch,
+    handleSetLoadingContent,
+  } = actionHomePage();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    <div className="items-center flex flex-col justify-center">
+      <div className="px-5 md:hidden flex justify-center w-full items-center h-[66px] border rounded-full shadow-lg  relative max-w-[800px]">
+        <input
+          value={useSearch || ""}
+          onChange={(e) => {
+            handleSearch(e.target.value);
+          }}
+          type="text"
+          className=" w-full border-none h-[50px] p-5  focus:outline-none focus:border-transparent"
+          placeholder="ค้นหา..."
         />
+        <button
+          onClick={() => {
+            handleSetLoadingContent();
+          }}
+          className="w-[48px]  h-[48px] rounded-full p-2 text-center  bg-purple-700 hover:bg-purple-800 animate-bounce text-white"
+        >
+          {IconSearch}
+        </button>
+      </div>
+      <div className="border-b-[1px]  w-full mt-10" />
+      <Image
+        src="/home.png"
+        alt="Clerk – Authentication & User Management for Next.js"
+        width={1200}
+        height={90}
+        className="object-cover w-full h-[300px]"
+        priority
+      />
+      <ClassView />
+      <HighlightView />
+
+      <div className="flex flex-col md:flex-row gap-2 px-10 w-full justify-center items-center">
+        {/*  Pantip Pick */}
+
+        {loading ? (
+          <div className="mt-10">
+            <ClipLoader size={50} color="#123abc" />
+          </div>
+        ) : (
+          <PickView data={listDataHistory} />
+        )}
+
+        {/* แท็กฮิต */}
+        {/*  <TagView /> */}
       </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      {/* Footer */}
+      <Footer />
+    </div>
   );
 }
+
+const IconSearch = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="28"
+    height="28"
+    color="#ffffff"
+    fill="none"
+  >
+    <path
+      d="M14 14L16.5 16.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16.4333 18.5252C15.8556 17.9475 15.8556 17.0109 16.4333 16.4333C17.0109 15.8556 17.9475 15.8556 18.5252 16.4333L21.5667 19.4748C22.1444 20.0525 22.1444 20.9891 21.5667 21.5667C20.9891 22.1444 20.0525 22.1444 19.4748 21.5667L16.4333 18.5252Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M16 9C16 5.13401 12.866 2 9 2C5.13401 2 2 5.13401 2 9C2 12.866 5.13401 16 9 16C12.866 16 16 12.866 16 9Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
